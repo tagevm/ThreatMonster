@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/ThreatMonster.Api/ThreatMonster.Api.csproj" />
+    <Project Path="src/ThreatMonster.Core/ThreatMonster.Core.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/ThreatMonster.Core.Tests/ThreatMonster.Core.Tests.csproj" />
+  </Folder>
+</Solution>

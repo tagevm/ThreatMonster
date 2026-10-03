@@ -1,0 +1,375 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ThreatMonster threat model (*.tm.json)",
+  "type": "object",
+  "properties": {
+    "format": {
+      "type": "string"
+    },
+    "version": {
+      "type": [
+        "string",
+        "integer"
+      ],
+      "pattern": "^-?(?:0|[1-9]\\d*)$"
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "owner": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reviewer": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "contributors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "createdAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "modifiedAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        }
+      }
+    },
+    "diagrams": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "elements": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "kind": {
+                  "enum": [
+                    "actor",
+                    "process",
+                    "store",
+                    "boundary",
+                    "annotation"
+                  ]
+                },
+                "name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "parentId": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "x": {
+                  "type": [
+                    "string",
+                    "number"
+                  ],
+                  "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d\u002B)?(?:[eE][\u002B-]?\\d\u002B)?$"
+                },
+                "y": {
+                  "type": [
+                    "string",
+                    "number"
+                  ],
+                  "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d\u002B)?(?:[eE][\u002B-]?\\d\u002B)?$"
+                },
+                "width": {
+                  "type": [
+                    "string",
+                    "number"
+                  ],
+                  "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d\u002B)?(?:[eE][\u002B-]?\\d\u002B)?$"
+                },
+                "height": {
+                  "type": [
+                    "string",
+                    "number"
+                  ],
+                  "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d\u002B)?(?:[eE][\u002B-]?\\d\u002B)?$"
+                },
+                "outOfScope": {
+                  "type": "boolean"
+                },
+                "outOfScopeReason": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "actorType": {
+                  "enum": [
+                    "human",
+                    "system",
+                    "agent",
+                    null
+                  ]
+                },
+                "providesAuthentication": {
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "isWebApplication": {
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "privileged": {
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "storesCredentials": {
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "isLog": {
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "isEncrypted": {
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "isSigned": {
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "points": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "x": {
+                        "type": [
+                          "string",
+                          "number"
+                        ],
+                        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d\u002B)?(?:[eE][\u002B-]?\\d\u002B)?$"
+                      },
+                      "y": {
+                        "type": [
+                          "string",
+                          "number"
+                        ],
+                        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d\u002B)?(?:[eE][\u002B-]?\\d\u002B)?$"
+                      }
+                    },
+                    "required": [
+                      "x",
+                      "y"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "flows": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "sourceId": {
+                  "type": "string"
+                },
+                "targetId": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "protocol": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "isEncrypted": {
+                  "type": "boolean"
+                },
+                "isPublicNetwork": {
+                  "type": "boolean"
+                },
+                "isBidirectional": {
+                  "type": "boolean"
+                },
+                "outOfScope": {
+                  "type": "boolean"
+                },
+                "outOfScopeReason": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "threats": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "number": {
+            "type": [
+              "string",
+              "integer"
+            ],
+            "pattern": "^-?(?:0|[1-9]\\d*)$"
+          },
+          "title": {
+            "type": "string"
+          },
+          "category": {
+            "enum": [
+              "spoofing",
+              "tampering",
+              "repudiation",
+              "informationDisclosure",
+              "denialOfService",
+              "elevationOfPrivilege"
+            ]
+          },
+          "diagramId": {
+            "type": "string"
+          },
+          "targetId": {
+            "type": "string"
+          },
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "mitigation": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "severity": {
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "critical",
+              null
+            ]
+          },
+          "status": {
+            "enum": [
+              "open",
+              "mitigated",
+              "accepted",
+              "notApplicable"
+            ]
+          },
+          "cvss": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "vector": {
+                "type": "string"
+              },
+              "baseScore": {
+                "type": [
+                  "string",
+                  "number",
+                  "null"
+                ],
+                "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d\u002B)?(?:[eE][\u002B-]?\\d\u002B)?$"
+              }
+            }
+          },
+          "catalogId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

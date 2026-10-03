@@ -1,0 +1,291 @@
+[
+  {
+    "id": "actor-s-credential-theft",
+    "category": "spoofing",
+    "appliesTo": ["actor"],
+    "title": "Attacker impersonates the user with stolen credentials",
+    "description": "Credentials obtained through phishing, credential stuffing or reuse let an attacker act as this actor.",
+    "mitigation": "Require multi-factor authentication, detect anomalous sign-ins, rate-limit and lock out repeated failures.",
+    "when": ["isHuman"]
+  },
+  {
+    "id": "actor-s-system-identity",
+    "category": "spoofing",
+    "appliesTo": ["actor"],
+    "title": "Rogue system pretends to be this external system",
+    "description": "Without strong service authentication, any system able to reach the interface can claim to be this actor.",
+    "mitigation": "Authenticate the system with mutual TLS, signed tokens or managed identities instead of shared secrets or IP allow-lists.",
+    "when": ["!isHuman"]
+  },
+  {
+    "id": "actor-s-agent-hijack",
+    "category": "spoofing",
+    "appliesTo": ["actor"],
+    "title": "Automated agent is hijacked or acts on injected instructions",
+    "description": "An automated or AI agent can be steered by crafted input (e.g. prompt injection) to act with its own identity on an attacker's behalf.",
+    "mitigation": "Give the agent least-privilege, scoped credentials; require human confirmation for sensitive actions; treat all agent input as untrusted.",
+    "when": ["isAgent"]
+  },
+  {
+    "id": "actor-s-weak-idp",
+    "category": "spoofing",
+    "appliesTo": ["actor"],
+    "title": "Identity provider is compromised or misconfigured",
+    "description": "If this actor provides authentication for others, a weakness in it lets attackers mint valid identities.",
+    "mitigation": "Harden and monitor the identity provider, validate token issuer, audience and signature, rotate signing keys.",
+    "when": ["providesAuthentication"]
+  },
+  {
+    "id": "actor-r-deny-action",
+    "category": "repudiation",
+    "appliesTo": ["actor"],
+    "title": "Actor denies having performed an action",
+    "description": "Without reliable attribution the actor can plausibly deny initiating a transaction or change.",
+    "mitigation": "Log security-relevant actions with authenticated identity, timestamp and request id to tamper-evident storage; use signed receipts for high-value actions."
+  },
+  {
+    "id": "process-s-auth-bypass",
+    "category": "spoofing",
+    "appliesTo": ["process"],
+    "title": "Caller bypasses authentication",
+    "description": "Endpoints or message handlers that do not consistently authenticate callers can be invoked anonymously.",
+    "mitigation": "Authenticate every entry point by default (deny unless explicitly public); test for unauthenticated access."
+  },
+  {
+    "id": "process-s-session-hijack",
+    "category": "spoofing",
+    "appliesTo": ["process"],
+    "title": "Session token is stolen or fixated",
+    "description": "Session cookies or bearer tokens leaked through XSS, logs or insecure transport let attackers reuse a victim's session.",
+    "mitigation": "Use HttpOnly, Secure, SameSite cookies; short-lived tokens with rotation; bind sessions to the client where feasible.",
+    "when": ["isWebApplication"]
+  },
+  {
+    "id": "process-t-input-injection",
+    "category": "tampering",
+    "appliesTo": ["process"],
+    "title": "Injection through untrusted input",
+    "description": "Untrusted input reaching interpreters (SQL, OS commands, LDAP, templates) can alter the process's behaviour.",
+    "mitigation": "Validate input against allow-lists, use parameterised queries and safe APIs, avoid dynamic code evaluation."
+  },
+  {
+    "id": "process-t-xss",
+    "category": "tampering",
+    "appliesTo": ["process"],
+    "title": "Cross-site scripting alters pages served to users",
+    "description": "Unencoded user content rendered in pages lets attackers run script in other users' browsers.",
+    "mitigation": "Context-aware output encoding, a strict Content-Security-Policy, framework auto-escaping.",
+    "when": ["isWebApplication"]
+  },
+  {
+    "id": "process-t-csrf",
+    "category": "tampering",
+    "appliesTo": ["process"],
+    "title": "Cross-site request forgery triggers unintended state changes",
+    "description": "A malicious site causes the user's browser to send authenticated, state-changing requests.",
+    "mitigation": "Anti-forgery tokens, SameSite cookies, require non-simple requests for state changes.",
+    "when": ["isWebApplication"]
+  },
+  {
+    "id": "process-t-dependency",
+    "category": "tampering",
+    "appliesTo": ["process"],
+    "title": "Compromised dependency or build pipeline",
+    "description": "Malicious code introduced through a third-party package or the CI/CD pipeline runs with the process's privileges.",
+    "mitigation": "Pin and verify dependencies, scan for known vulnerabilities, sign build artefacts, protect the pipeline."
+  },
+  {
+    "id": "process-r-missing-audit",
+    "category": "repudiation",
+    "appliesTo": ["process"],
+    "title": "Security-relevant events are not audited",
+    "description": "Without an audit trail, misuse cannot be detected, investigated or attributed.",
+    "mitigation": "Log authentication, authorisation failures and sensitive operations with user identity; ship logs to a central, append-only store."
+  },
+  {
+    "id": "process-i-error-leak",
+    "category": "informationDisclosure",
+    "appliesTo": ["process"],
+    "title": "Verbose errors reveal internal details",
+    "description": "Stack traces, SQL errors or version banners help attackers map the system.",
+    "mitigation": "Return generic error messages to callers, log details server-side only, remove version banners."
+  },
+  {
+    "id": "process-i-idor",
+    "category": "informationDisclosure",
+    "appliesTo": ["process"],
+    "title": "Insecure direct object reference exposes other users' data",
+    "description": "Object identifiers supplied by the caller are used without checking that the caller owns the object.",
+    "mitigation": "Enforce object-level authorisation on every access; prefer unguessable identifiers as defence in depth."
+  },
+  {
+    "id": "process-i-secrets-in-code",
+    "category": "informationDisclosure",
+    "appliesTo": ["process"],
+    "title": "Secrets embedded in code or configuration",
+    "description": "API keys, passwords or connection strings in source, images or config files can leak.",
+    "mitigation": "Load secrets from a secret manager or managed identity at runtime; scan repositories for secrets."
+  },
+  {
+    "id": "process-d-resource-exhaustion",
+    "category": "denialOfService",
+    "appliesTo": ["process"],
+    "title": "Resource exhaustion through excessive requests",
+    "description": "Floods of requests or expensive operations exhaust CPU, memory, threads or connections.",
+    "mitigation": "Rate limiting, request size limits, timeouts, autoscaling and back-pressure."
+  },
+  {
+    "id": "process-d-algorithmic",
+    "category": "denialOfService",
+    "appliesTo": ["process"],
+    "title": "Crafted input triggers expensive processing",
+    "description": "Inputs such as deeply nested JSON, regex backtracking (ReDoS) or decompression bombs consume disproportionate resources.",
+    "mitigation": "Bound input size and depth, use linear-time regex engines or timeouts, limit decompression ratios."
+  },
+  {
+    "id": "process-e-broken-authz",
+    "category": "elevationOfPrivilege",
+    "appliesTo": ["process"],
+    "title": "Missing function-level authorisation",
+    "description": "Administrative or privileged functions are reachable by ordinary users because authorisation is checked only in the UI.",
+    "mitigation": "Enforce role/permission checks server-side on every function; deny by default."
+  },
+  {
+    "id": "process-e-runs-privileged",
+    "category": "elevationOfPrivilege",
+    "appliesTo": ["process"],
+    "title": "Compromise yields elevated privileges",
+    "description": "The process runs with high privileges, so any code execution flaw gives an attacker those privileges.",
+    "mitigation": "Run with least privilege, drop capabilities, sandbox or containerise, separate privileged functions into a small, hardened component.",
+    "when": ["privileged"]
+  },
+  {
+    "id": "process-e-rce",
+    "category": "elevationOfPrivilege",
+    "appliesTo": ["process"],
+    "title": "Remote code execution through unsafe deserialisation or parsing",
+    "description": "Deserialising untrusted data or parsing complex formats with vulnerable libraries can execute attacker code.",
+    "mitigation": "Avoid polymorphic deserialisation of untrusted data, keep parsers patched, validate formats strictly."
+  },
+  {
+    "id": "store-t-unauthorised-write",
+    "category": "tampering",
+    "appliesTo": ["store"],
+    "title": "Data modified by unauthorised parties",
+    "description": "Weak access control on the store allows data to be altered directly, bypassing the application.",
+    "mitigation": "Restrict write access to the owning service identity, use least-privilege database roles, enable change auditing."
+  },
+  {
+    "id": "store-t-integrity",
+    "category": "tampering",
+    "appliesTo": ["store"],
+    "title": "Tampering goes undetected",
+    "description": "Without integrity protection, modified records or files are indistinguishable from legitimate ones.",
+    "mitigation": "Sign or MAC critical records, use checksums and versioning, monitor for unexpected changes.",
+    "when": ["!isSigned"]
+  },
+  {
+    "id": "store-r-log-tamper",
+    "category": "repudiation",
+    "appliesTo": ["store"],
+    "title": "Audit log can be altered or deleted",
+    "description": "An attacker who can edit the log can erase evidence of their actions.",
+    "mitigation": "Append-only / WORM storage, forward logs off-host, restrict delete permissions, hash-chain entries.",
+    "when": ["isLog"]
+  },
+  {
+    "id": "store-i-unencrypted",
+    "category": "informationDisclosure",
+    "appliesTo": ["store"],
+    "title": "Sensitive data at rest is not encrypted",
+    "description": "Disk theft, backups or snapshot access expose data stored in clear text.",
+    "mitigation": "Encrypt at rest with managed keys, protect backups and snapshots with the same controls.",
+    "when": ["!isEncrypted"]
+  },
+  {
+    "id": "store-i-credentials",
+    "category": "informationDisclosure",
+    "appliesTo": ["store"],
+    "title": "Stored credentials can be recovered",
+    "description": "Passwords or secrets stored reversibly or with weak hashing can be recovered after a breach.",
+    "mitigation": "Hash passwords with a slow, salted algorithm (Argon2id, bcrypt, PBKDF2); keep other secrets in a secret manager.",
+    "when": ["storesCredentials"]
+  },
+  {
+    "id": "store-i-overbroad-read",
+    "category": "informationDisclosure",
+    "appliesTo": ["store"],
+    "title": "Over-broad read access to the store",
+    "description": "Accounts, services or public endpoints can read more data than they need.",
+    "mitigation": "Least-privilege read permissions, no public access, row/column-level security for sensitive data."
+  },
+  {
+    "id": "store-d-capacity",
+    "category": "denialOfService",
+    "appliesTo": ["store"],
+    "title": "Store becomes unavailable or full",
+    "description": "Storage exhaustion, lock contention or outage makes dependent processes fail.",
+    "mitigation": "Quotas, monitoring and alerting on capacity, replication and tested backups."
+  },
+  {
+    "id": "flow-t-mitm",
+    "category": "tampering",
+    "appliesTo": ["flow"],
+    "title": "Data in transit modified by a man-in-the-middle",
+    "description": "Without integrity protection an attacker on the network path can alter requests or responses.",
+    "mitigation": "Use TLS 1.2+ with certificate validation; consider message signing for high-value payloads.",
+    "when": ["!isEncrypted"]
+  },
+  {
+    "id": "flow-t-replay",
+    "category": "tampering",
+    "appliesTo": ["flow"],
+    "title": "Captured messages are replayed",
+    "description": "Valid messages are captured and sent again to repeat an operation.",
+    "mitigation": "Nonces or timestamps with short validity, idempotency keys, sequence numbers."
+  },
+  {
+    "id": "flow-i-sniffing",
+    "category": "informationDisclosure",
+    "appliesTo": ["flow"],
+    "title": "Data in transit is readable on the network",
+    "description": "Unencrypted traffic can be captured and read by anyone on the network path.",
+    "mitigation": "Encrypt the channel with TLS (or mTLS between services).",
+    "when": ["!isEncrypted"]
+  },
+  {
+    "id": "flow-i-public-network",
+    "category": "informationDisclosure",
+    "appliesTo": ["flow"],
+    "title": "Sensitive data exposed over a public network",
+    "description": "Traffic crossing the internet is exposed to interception and endpoint impersonation.",
+    "mitigation": "TLS with strict certificate validation, HSTS for web traffic, minimise sensitive data in the payload.",
+    "when": ["isPublicNetwork"]
+  },
+  {
+    "id": "flow-i-trust-boundary",
+    "category": "informationDisclosure",
+    "appliesTo": ["flow"],
+    "title": "More data than necessary crosses the trust boundary",
+    "description": "Responses or messages leaving a trust zone contain fields the receiver does not need.",
+    "mitigation": "Use explicit response DTOs, filter fields at the boundary, classify data and review what leaves each zone.",
+    "when": ["crossesBoundary"]
+  },
+  {
+    "id": "flow-d-flood",
+    "category": "denialOfService",
+    "appliesTo": ["flow"],
+    "title": "Channel is flooded or interrupted",
+    "description": "Volumetric attacks or network failures interrupt communication along this flow.",
+    "mitigation": "DDoS protection at the edge, timeouts and retries with back-off, circuit breakers, redundancy.",
+    "when": ["crossesBoundary"]
+  },
+  {
+    "id": "flow-d-unbounded-payload",
+    "category": "denialOfService",
+    "appliesTo": ["flow"],
+    "title": "Oversized or malformed payloads disrupt the receiver",
+    "description": "Very large or malformed messages consume resources or crash the receiving process.",
+    "mitigation": "Enforce maximum message size, schema validation at the receiver, streaming limits."
+  }
+]
