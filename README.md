@@ -92,6 +92,14 @@ cd web && npm test   # frontend: nesting, boundary crossing, suggestions
 The format does not depend on the diagram library: positions are absolute and nesting is an explicit `parentId`
 derived from geometry.
 
+## Generating models with AI
+
+[`skills/threatmonster/SKILL.md`](skills/threatmonster/SKILL.md) teaches an AI model the concepts and the file format,
+including layout rules, the STRIDE method and a complete example. Give it to a model together with a design
+document and ask for a threat model. The model's output opens directly in ThreatMonster. The file is in the Agent Skills
+format, so Claude Code and other skill-aware tools can use it as a skill; for other models, paste it into the
+prompt. A test checks that the example in the skill loads and passes the skill's own self-check.
+
 ## Extending the threat catalog
 
 Add entries to `src/ThreatMonster.Core/Stride/catalog.json`. `appliesTo` lists the target kinds (`actor`, `process`,
