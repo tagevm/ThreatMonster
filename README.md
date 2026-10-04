@@ -107,3 +107,10 @@ Add entries to `src/ThreatMonster.Core/Stride/catalog.json`. `appliesTo` lists t
 conditions are `isHuman`, `isAgent`, `providesAuthentication`, `isWebApplication`, `privileged`, `storesCredentials`,
 `isLog`, `isEncrypted`, `isSigned`, `isPublicNetwork` and `crossesBoundary`. A test checks that every entry's category
 is valid for its target kinds.
+
+## License
+
+ThreatMonster is licensed under the [Apache License 2.0](LICENSE).
+
+The test fixtures in `tests/ThreatMonster.Core.Tests/Fixtures/ThreatDragon` are demo models from
+[OWASP Threat Dragon](https://github.com/OWASP/threat-dragon), which is also licensed under Apache 2.0.
