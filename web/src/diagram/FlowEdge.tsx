@@ -58,6 +58,9 @@ export function FlowEdge({ id, source, target, data, selected, markerEnd, marker
   const path = `M ${s.x},${s.y} Q ${control.x},${control.y} ${t.x},${t.y}`
   const label = { x: 0.25 * s.x + 0.5 * control.x + 0.25 * t.x, y: 0.25 * s.y + 0.5 * control.y + 0.25 * t.y }
 
+  // React Flow raises edges between nodes inside a boundary to the parent's z-index; match it so the label is not drawn under its own line.
+  const z = Math.max(sourceNode.parentId ? sourceNode.internals.z : 0, targetNode.parentId ? targetNode.internals.z : 0)
+
   const { flow } = data
   const stroke = selected ? '#7c3aed' : data.crossesBoundary ? '#d97706' : '#57534e'
 
@@ -79,7 +82,7 @@ export function FlowEdge({ id, source, target, data, selected, markerEnd, marker
       <EdgeLabelRenderer>
         <div
           className="nodrag nopan absolute flex cursor-pointer items-center gap-1"
-          style={{ transform: `translate(-50%, -50%) translate(${label.x}px, ${label.y}px)`, pointerEvents: 'all' }}
+          style={{ transform: `translate(-50%, -50%) translate(${label.x}px, ${label.y}px)`, pointerEvents: 'all', zIndex: z }}
           onClick={() => select([id])}
         >
           {(flow.name || flow.isEncrypted || flow.isPublicNetwork) && (
